@@ -22,7 +22,7 @@ let ordersSchema = new mongoose.Schema(
       required: true,
     },
     c_number: {
-      type: Number,
+      type: String,
       required: true,
     },
     c_altNumber: {

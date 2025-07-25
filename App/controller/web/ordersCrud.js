@@ -51,7 +51,19 @@ let orderInsert = async (req, res) => {
 // ✅ GET all Orders
 let orders = async (req, res) => {
   try {
-    let orderList = await orderModel.find();
+    const search = req.query.search || "";
+
+    const filterQuery = {
+      $or: [
+        { order_id: { $regex: search, $options: "i" } },
+        { c_number: { $regex: search, $options: "i" } },
+      ],
+    };
+
+    const orderList = await orderModel
+      .find(search ? filterQuery : {})
+      .sort({ createdAt: -1 });
+
     res.status(200).json({
       status: 1,
       message: "Orders List",
